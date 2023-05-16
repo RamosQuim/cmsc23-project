@@ -22,7 +22,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
           children: const <Widget>[
             Text(
-              "Details",
+              "This is for profile page",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 25),
             ),

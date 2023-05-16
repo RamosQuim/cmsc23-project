@@ -14,7 +14,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(
     MultiProvider(
       providers: [
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Todo with Auth',
       initialRoute: '/',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       routes: {
         '/': (context) => const TodoPage(),

@@ -20,7 +20,6 @@ class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
     // access the list of todos in the provider
-    Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todos;
     Stream<User?> userStream = context.watch<AuthProvider>().uStream;
 
     return StreamBuilder(
@@ -39,15 +38,11 @@ class _TodoPageState extends State<TodoPage> {
           }
 
           // if user is logged in, display the scaffold containing the streambuilder for the todos
-          return displayScaffold(context, todosStream);
+          return displayScaffold(context);
         });
-
-
-
   }
 
-  Scaffold displayScaffold(
-      BuildContext context, Stream<QuerySnapshot<Object?>> todosStream) {
+  Scaffold displayScaffold(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: [
@@ -71,96 +66,26 @@ class _TodoPageState extends State<TodoPage> {
       appBar: AppBar(
         title: Text("Todo"),
       ),
-      body: StreamBuilder(
-        stream: todosStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error encountered! ${snapshot.error}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (!snapshot.hasData) {
-            return Center(
-              child: Text("No Todos Found"),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data?.docs.length,
-            itemBuilder: ((context, index) {
-              Todo todo = Todo.fromJson(
-                  snapshot.data?.docs[index].data() as Map<String, dynamic>);
-              return Dismissible(
-                key: Key(todo.id.toString()),
-                onDismissed: (direction) {
-                  context.read<TodoListProvider>().changeSelectedTodo(todo);
-                  context.read<TodoListProvider>().deleteTodo();
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${todo.title} dismissed')));
-                },
-                background: Container(
-                  color: Colors.red,
-                  child: const Icon(Icons.delete),
-                ),
-                child: ListTile(
-                  title: Text(todo.title),
-                  leading: Checkbox(
-                    value: todo.completed,
-                    onChanged: (bool? value) {
-                      context
-                          .read<TodoListProvider>()
-                          .toggleStatus(index, value!);
-                    },
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (BuildContext context) => TodoModal(
-                          //     type: 'Edit',
-                          //     todoIndex: index,
-                          //   ),
-                          // );
-                        },
-                        icon: const Icon(Icons.create_outlined),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<TodoListProvider>()
-                              .changeSelectedTodo(todo);
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => TodoModal(
-                              type: 'Delete',
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.delete_outlined),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }),
-          );
-        },
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+          children: const <Widget>[
+            Text(
+              "WELCOME TO HOMEPAGE",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
-            context: context,
-            builder: (BuildContext context) => TodoModal(
-              type: 'Add',
-            ),
-          );
+              context: context,
+              builder: (BuildContext context) => const AlertDialog(
+                    title: Text("This is for adding health status entry"),
+                  ));
         },
         child: const Icon(Icons.add_outlined),
       ),
