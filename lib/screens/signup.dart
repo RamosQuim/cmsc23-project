@@ -208,7 +208,7 @@ class _SignupPageState extends State<SignupPage> {
         child: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-          children: <Widget>[
+          children: <Widget>[  
             const Padding(
               padding: EdgeInsets.all(20),
               child: Text(

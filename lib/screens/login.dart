@@ -102,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
           shrinkWrap: true,
           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
           children: <Widget>[
+            Padding(child: Image.asset('assets/health_launcher.png'), padding: EdgeInsets.all(20),),
             const Padding(
               padding: EdgeInsets.all(20),
               child: Text(
